@@ -1,0 +1,44 @@
+{
+  "name": "solidity-project-truffle-template",
+  "version": "1.0.0",
+  "description": "Add your project description here",
+  "scripts": {
+    "test": "npm run prettier && npm run solhint && npx truffle test --stacktrace",
+    "start": "npm run prettier && npm run solhint && npx truffle compile",
+    "migrate": "npm run prettier && npm run solhint && npx truffle migrate",
+    "coverage": "npx truffle run coverage",
+    "solhint": "npx solhint -f table contracts/**/*.sol",
+    "prettier": "npx prettier --write contracts/**/*.sol"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/akshay-na/solidity-project-template.git"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run prettier && npm run solhint"
+    }
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@babel/core": "^7.18.0",
+    "@babel/polyfill": "^7.12.1",
+    "@openzeppelin/contracts": "^4.5.0",
+    "@uniswap/v2-core": "^1.0.1",
+    "@uniswap/v2-periphery": "^1.1.0-beta.0"
+  },
+  "devDependencies": {
+    "@openzeppelin/test-helpers": "^0.5.15",
+    "@truffle/hdwallet-provider": "^2.0.8",
+    "dotenv": "^16.0.0",
+    "husky": "^8.0.1",
+    "prettier": "^2.6.2",
+    "prettier-plugin-solidity": "^1.0.0-beta.19",
+    "solhint": "^3.3.7",
+    "solhint-plugin-prettier": "0.0.5",
+    "solidity-coverage": "^0.7.0",
+    "truffle-contract-size": "^2.0.1",
+    "truffle-plugin-verify": "^0.5.25"
+  }
+}

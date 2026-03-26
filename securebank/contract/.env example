@@ -1,0 +1,47 @@
+# .env example
+
+
+#################################################################################################
+#                                                                                               #
+#               Please Fill up he following variables and rename the file as .env               #
+#               Keep the same formate, no spaces between variabel name and value.               #
+#               As ganache script uses shell script syntax, its neccessary to                   #
+#               keep it that way.                                                               #
+#                                                                                               #
+#               Feel Free to modify the way it fits your requirement.                           #
+#                                                                                               #
+#################################################################################################
+
+
+# .env
+# --------------------- Never disclose ----------------------------------
+
+MNEMONIC=""
+
+# Block explorer API keys
+BSCSCAN_API=""
+ETHSCAN_API=""
+POLYGON_API=""
+
+# JSON RPC Node API Key
+GETBLOCK_API=""
+
+# ---------------------- Can be disclosed --------------------------------
+
+# Mainnets
+ETH_MAINNET_GETBLOCK="https://eth.getblock.io/mainnet/?api_key="
+BSC_MAINNET_GETBLOCK="https://bsc.getblock.io/mainnet/?api_key="
+POLYGON_MAINNET_GETBLOCK="https://matic.getblock.io/mainnet/?api_key="
+FHANTOM_MAINNET_GETBLOCK="https://ftm.getblock.io/mainnet/?api_key="
+OPTIMISM_MAINNET_GETBLOCK="https://op.getblock.io/mainnet/?api_key="
+
+# ETH TestNets
+ETH_TESTNET_GOERLI_GETBLOCK="https://eth.getblock.io/goerli/?api_key="
+ETH_TESTNET_ROPSTEN_GETBLOCK="https://eth.getblock.io/ropsten/?api_key="
+ETH_TESTNET_KOVAN_GETBLOCK="https://eth.getblock.io/kovan/?api_key="
+ETH_TESTNET_RINKEBY_GETBLOCK="https://eth.getblock.io/rinkeby/?api_key="
+
+# Other Testnet
+BSC_TESTNET_GETBLOCK="https://bsc.getblock.io/testnet/?api_key="
+POLYGON_TESTNET_GETBLOCK="https://matic.getblock.io/testnet/?api_key="
+OPTIMISM_TESTNET_GETBLOCK="https://op.getblock.io/mainnet/?api_key="

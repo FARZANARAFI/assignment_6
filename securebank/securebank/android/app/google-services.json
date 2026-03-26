@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "415616240408",
+    "project_id": "bank-sec",
+    "storage_bucket": "bank-sec.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:415616240408:android:9aa494b68786fa0046ac6d",
+        "android_client_info": {
+          "package_name": "com.example.securebank"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCQ-n6v1td5pGh0O3jT9A53F1FxWQAejzY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
