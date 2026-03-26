@@ -1,0 +1,12 @@
+How to use
+
+Run training to generate artefacts:
+python twitter_sentiment_main.py
+
+
+That will create:
+- sentiment_model.h5
+- tokenizer.joblib
+
+Then run the app:
+streamlit run twitter_sentiment_app.py

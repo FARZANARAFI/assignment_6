@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Twitter Sentiment Analysis</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        /* ===== Reset & Base ===== */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: "Segoe UI", Tahoma, sans-serif;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        /* ===== Card ===== */
+        .card {
+            background: #ffffff;
+            width: 100%;
+            max-width: 650px;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            animation: fadeIn 0.8s ease;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 25px;
+        }
+
+        /* ===== Form ===== */
+        textarea {
+            width: 100%;
+            height: 120px;
+            padding: 12px;
+            border-radius: 10px;
+            border: 1px solid #ccc;
+            font-size: 14px;
+            resize: none;
+        }
+
+        button {
+            width: 100%;
+            margin-top: 15px;
+            padding: 12px;
+            font-size: 16px;
+            font-weight: bold;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        /* ===== Result ===== */
+        .result {
+            margin-top: 25px;
+            animation: slideUp 0.6s ease;
+        }
+
+        .sentiment {
+            text-align: center;
+            font-size: 22px;
+            margin-bottom: 15px;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 6px 14px;
+            border-radius: 20px;
+            color: white;
+            font-weight: bold;
+            margin-left: 8px;
+            transition: transform 0.2s ease;
+        }
+
+        .badge:hover { transform: scale(1.1); }
+
+        /* Sentiment colors */
+        .Positive { background: #2ecc71; }
+        .Neutral  { background: #f1c40f; color: #333; }
+        .Negative { background: #e74c3c; }
+
+        /* Progress Bars */
+        .bar {
+            background: #eee;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+
+        .bar-fill {
+            height: 18px;
+            border-radius: 10px;
+            animation: grow 1s ease;
+        }
+
+        .bar-label {
+            font-size: 13px;
+            margin-bottom: 4px;
+        }
+
+        .Negative-fill { background: #e74c3c; }
+        .Neutral-fill  { background: #f1c40f; }
+        .Positive-fill { background: #2ecc71; }
+
+        /* Live Stats */
+        .stats {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+            text-align: center;
+            flex-wrap: wrap;
+        }
+        .stats div {
+            flex: 1 1 33%;
+            padding: 10px 5px;
+        }
+        .stats div strong { display: block; margin-bottom: 5px; }
+
+        /* History Table */
+        .history-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        .history-table th, .history-table td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: left;
+            font-size: 13px;
+        }
+        .history-table th {
+            background: #f0f0f0;
+        }
+        .download-btn {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        /* ===== Animations ===== */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes grow {
+            from { width: 0; }
+        }
+
+        /* ===== Responsive ===== */
+        @media(max-width: 500px) {
+            .stats div { flex: 1 1 100%; margin-bottom: 10px; }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="card">
+
+    <h1>🧠 Twitter Sentiment Analysis</h1>
+    <p class="subtitle">
+        Powered by a BiLSTM model trained on real Twitter data
+    </p>
+
+    <form method="post">
+        <textarea
+            name="tweet"
+            placeholder="Type something like: I love this new phone!">{{ user_input or '' }}</textarea>
+
+        <button type="submit">Analyze Sentiment</button>
+    </form>
+
+    {% if sentiment and probabilities %}
+    <div class="result">
+
+        <div class="sentiment">
+            Sentiment:
+            <span class="badge {{ sentiment }}">
+                {% if sentiment == "Positive" %}😊{% elif sentiment == "Neutral" %}😐{% elif sentiment == "Negative" %}😠{% endif %}
+                {{ sentiment }}
+            </span>
+        </div>
+
+        {% for label, prob in probabilities.items() %}
+        <div class="bar-label">{{ label }} — {{ "%.1f"|format(prob * 100) }}%</div>
+        <div class="bar">
+            <div class="bar-fill {{ label }}-fill" style="width: {{ prob * 100 }}%;"></div>
+        </div>
+        {% endfor %}
+
+        {% if stats %}
+        <hr style="margin: 25px 0;">
+        <h3 style="text-align:center;">📊 Live Sentiment Report</h3>
+        <div class="stats">
+            <div>
+                <strong>Confidence</strong>
+                {{ stats.confidence }}%
+            </div>
+            <div>
+                <strong>Word Count</strong>
+                {{ stats.word_count }}
+            </div>
+            <div>
+                <strong>Time</strong>
+                {{ stats.timestamp }}
+            </div>
+        </div>
+        {% endif %}
+
+    </div>
+    {% endif %}
+
+    {% if history %}
+    <hr style="margin: 25px 0;">
+    <h3 style="text-align:center;">📜 Prediction History</h3>
+    <div style="text-align:center; margin-bottom:10px;">
+        <a href="/download" class="download-btn">Download Report CSV</a>
+    </div>
+    <table class="history-table">
+        <thead>
+            <tr>
+                <th>Time</th>
+                <th>Tweet</th>
+                <th>Sentiment</th>
+                <th>Confidence</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in history|reverse %}
+            <tr>
+                <td>{{ item.timestamp }}</td>
+                <td>{{ item.tweet }}</td>
+                <td>{{ item.sentiment }}</td>
+                <td>{{ item.confidence }}%</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,17 @@
+Feature,Importance
+ph_category_neutral,1.0
+ph_category_alkaline,0.4963471
+Sulfate,0.14478113
+ph,0.12810391
+Hardness,0.12618959
+Solids,0.12503529
+Chloramines,0.121787086
+Trihalomethanes_log,0.11699693
+Cond_Hardness_ratio,0.11580381
+Solids_log,0.11424345
+Trihalomethanes,0.11023576
+Turbidity,0.10672504
+Conductivity,0.103653
+Organic_carbon,0.10222567
+Turbidity_norm,0.0
+ph_category_nan,0.0
